@@ -58,13 +58,21 @@ int main()
 		pCustom->nArriveTime = GetTimeInt(strTime);
 		pCustom->nProcessTime = nTime * 60;
 		pCustom->nLeftTime = pCustom->nProcessTime + max(pCustom->nArriveTime, nStartTime);
+		if (pCustom->nArriveTime < nStartTime)
+		{
+			nTotalTime += nStartTime - pCustom->nArriveTime;
+		}
 		if (pCustom->nArriveTime <= nEndTime)
 		{
 			vctCustom.push_back(pCustom);
 		}
-		if (pCustom->nArriveTime < nStartTime)
+		else
 		{
-			nTotalTime += nStartTime - pCustom->nArriveTime;
+			if (pCustom)
+			{
+				delete pCustom;
+				pCustom = NULL;
+			}
 		}
 	}
 	if (vctCustom.size() > nWindows)
