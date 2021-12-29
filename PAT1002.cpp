@@ -1,4 +1,4 @@
-#include <cstdio>
+ï»¿#include <cstdio>
 #include <iostream>
 #include <stack>
 using namespace std;
@@ -81,7 +81,7 @@ int main()
 	cout << stkAns.size();
 	while (!stkAns.empty())
 	{
-		// Ê¹ÓÃprintf±ãÓÚÉèÖÃÐ¡ÊýÊä³ö
+		// ä½¿ç”¨printfä¾¿äºŽè®¾ç½®å°æ•°è¾“å‡º
 		printf(" %d %.1f", stkAns.top(), expAns.top());
 		stkAns.pop();
 		expAns.pop();

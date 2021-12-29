@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <cstdio>
 #include <vector>
 #include <queue>
@@ -8,14 +8,14 @@ using namespace std;
 
 const int nTotalTime = 540;
 const int maxN = 1010;
-int arrFinishTime[maxN] = { 0 }; // ¼ÇÂ¼Ã¿¸öÈËÍê³ÉÊ±¼ä
+int arrFinishTime[maxN] = { 0 }; // è®°å½•æ¯ä¸ªäººå®Œæˆæ—¶é—´
 
 int GetMinTime(vector<int> vct)
 {
 	int nMinTime = INT_MAX;
 	for (int i = 0; i < vct.size(); i++)
 	{
-		if ((vct[i] != 0) && (vct[i] < nMinTime)) // 0±íÊ¾¸Ã´°¿ÚÒÑÎŞÈËµÈ´ı
+		if ((vct[i] != 0) && (vct[i] < nMinTime)) // 0è¡¨ç¤ºè¯¥çª—å£å·²æ— äººç­‰å¾…
 		{
 			nMinTime = vct[i];
 		}
@@ -27,9 +27,9 @@ int main()
 {
 	int nWindows, nLineLength, nCustoms, nAsks;
 	cin >> nWindows >> nLineLength >> nCustoms >> nAsks;
-	vector<int> vctTimeCost; // Ã¿¸öÈËÏûºÄµÄÊ±¼ä
-	queue<int> qWait; // È«ÌåµÈ´ı¶ÓÁĞ
-	vector<bool> vctFinish; // ÒÑÍê³É¶ÓÁĞ
+	vector<int> vctTimeCost; // æ¯ä¸ªäººæ¶ˆè€—çš„æ—¶é—´
+	queue<int> qWait; // å…¨ä½“ç­‰å¾…é˜Ÿåˆ—
+	vector<bool> vctFinish; // å·²å®Œæˆé˜Ÿåˆ—
 	for (int i = 0; i < nCustoms; i++)
 	{
 		int nTimeCost;
@@ -38,19 +38,19 @@ int main()
 		vctFinish.push_back(false);
 		qWait.push(i);
 	}
-	vector<queue<int>> vctLines; // Ã¿Ò»´°¿ÚµÄµÈ´ı¶ÓÁĞ
+	vector<queue<int>> vctLines; // æ¯ä¸€çª—å£çš„ç­‰å¾…é˜Ÿåˆ—
 	for (int i = 0; i < nWindows; i++)
 	{
 		queue<int> qLines;
 		vctLines.push_back(qLines);
 	}
-	// ×î¿ªÊ¼»ÆÏßÄÚ¶ÓÁĞ
+	// æœ€å¼€å§‹é»„çº¿å†…é˜Ÿåˆ—
 	for (int i = 0; i < min(nWindows*nLineLength, nCustoms); i++)
 	{
 		vctLines[i%nWindows].push(i);
 		qWait.pop();
 	}
-	// ´¦Àí¶ÓÈİÁ¿Îª0µÄÇé¿ö
+	// å¤„ç†é˜Ÿå®¹é‡ä¸º0çš„æƒ…å†µ
 	if (nLineLength == 0)
 	{
 		for (int i = 0; i < min(nWindows, nCustoms); i++)
@@ -59,14 +59,14 @@ int main()
 			qWait.pop();
 		}
 	}
-	// °´ÂÖ´Î¼ÆËã£¬Ã¿Ò»ÂÖÕÒµ½µÚÒ»ÅÅ×î¶ÌÊ±¼ä£¬½«ºóĞøµÈ´ıÕß°²ÅÅ²åÈë
-	int nFinishCustoms = 0; // ÒÑÍê³ÉÈËÊı
-	vector<int> vctServeTime; // Ã¿¸ö´°¿ÚµÚÒ»¸öÈËµÄ·şÎñÊ±¼ä
-	for (int i = 0; i < min(nWindows, nCustoms); i++) // Òª×¢Òâ¹Ë¿ÍÊıĞ¡ÓÚ´°¿ÚÊıµÄÇé¿ö
+	// æŒ‰è½®æ¬¡è®¡ç®—ï¼Œæ¯ä¸€è½®æ‰¾åˆ°ç¬¬ä¸€æ’æœ€çŸ­æ—¶é—´ï¼Œå°†åç»­ç­‰å¾…è€…å®‰æ’æ’å…¥
+	int nFinishCustoms = 0; // å·²å®Œæˆäººæ•°
+	vector<int> vctServeTime; // æ¯ä¸ªçª—å£ç¬¬ä¸€ä¸ªäººçš„æœåŠ¡æ—¶é—´
+	for (int i = 0; i < min(nWindows, nCustoms); i++) // è¦æ³¨æ„é¡¾å®¢æ•°å°äºçª—å£æ•°çš„æƒ…å†µ
 	{
 		vctServeTime.push_back(vctTimeCost[vctLines[i].front()]);
 	}
-	// ÏÈ±£´æÊäÈë
+	// å…ˆä¿å­˜è¾“å…¥
 	vector<int> vctAsk;
 	for (int i = 0; i < nAsks; i++)
 	{
@@ -77,11 +77,11 @@ int main()
 	int nCostTime = 0;
 	while (nFinishCustoms < nCustoms && (nCostTime < nTotalTime))
 	// nFinishCustoms < nCustoms && (nCostTime < nTotalTime) 
-	// Õâ¸öÌõ¼şÆäÊµ²»ÑÏ½÷£¬ÒòÎª¸ÕºÃµ½µãÊ±»¹ÓĞÔÚÅÅ¶ÓµÄÈËµÄÊä³ö¾Í´íÎóÁË£¬Ó¦¸ÃÔÙÅĞ¶Ï
+	// è¿™ä¸ªæ¡ä»¶å…¶å®ä¸ä¸¥è°¨ï¼Œå› ä¸ºåˆšå¥½åˆ°ç‚¹æ—¶è¿˜æœ‰åœ¨æ’é˜Ÿçš„äººçš„è¾“å‡ºå°±é”™è¯¯äº†ï¼Œåº”è¯¥å†åˆ¤æ–­
 	{
 		int nTime = GetMinTime(vctServeTime);
 		nCostTime += nTime;
-		// ½áËãÊ£ÓàÈËµÄÊ±¼ä
+		// ç»“ç®—å‰©ä½™äººçš„æ—¶é—´
 		for (int j = 0; j < nCustoms; j++)
 		{
 			if (!vctFinish[j])
@@ -89,27 +89,27 @@ int main()
 				arrFinishTime[j] += nTime;
 			}
 		}
-		// ´°¿Ú½áËã
+		// çª—å£ç»“ç®—
 		for (int i = 0; i < nWindows; i++)
 		{
-			if (vctLines[i].empty()) // ´Ë´°¿ÚÒÑ¿Õ
+			if (vctLines[i].empty()) // æ­¤çª—å£å·²ç©º
 			{
 				continue;
 			}
 			vctServeTime[i] -= nTime;
-			// ´ËÊ±£¬´Ë´°¿ÚÒÑÓĞÒ»ÈËÍê³É
+			// æ­¤æ—¶ï¼Œæ­¤çª—å£å·²æœ‰ä¸€äººå®Œæˆ
 			if (vctServeTime[i] == 0)
 			{
 				vctFinish[vctLines[i].front()] = true;
 				vctLines[i].pop();
 				nFinishCustoms++;
-				// °²ÅÅĞÂµÄÈË½øÈë
+				// å®‰æ’æ–°çš„äººè¿›å…¥
 				if (!qWait.empty())
 				{
 					vctLines[i].push(qWait.front());
 					qWait.pop();
 				}
-				// ÖØÖÃµÚÒ»ÅÅÊ±¼ä
+				// é‡ç½®ç¬¬ä¸€æ’æ—¶é—´
 				if (!vctLines[i].empty())
 				{
 					vctServeTime[i] = vctTimeCost[vctLines[i].front()];
@@ -117,7 +117,7 @@ int main()
 			}
 		}
 	}
-	// ÕâÀïÊÇÌØÊâ°¸Àı£¬¸ÕºÃµ½µã£¬»¹ÓĞÈËÃ»´¦ÀíÍê
+	// è¿™é‡Œæ˜¯ç‰¹æ®Šæ¡ˆä¾‹ï¼Œåˆšå¥½åˆ°ç‚¹ï¼Œè¿˜æœ‰äººæ²¡å¤„ç†å®Œ
 	if (nCostTime == nTotalTime)
 	{
 		for (int i = 0; i < nWindows; i++)

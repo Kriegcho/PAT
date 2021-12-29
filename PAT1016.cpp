@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -90,7 +90,7 @@ int main()
 	for (MapUserRecordVct::iterator itr = mapUserRecord.begin(); itr != mapUserRecord.end(); itr++)
 	{
 		sort(itr->second.begin(), itr->second.end(), RecordCmp);
-		// ÌÞ³ý²»ºÏ¸ñµÄ¼ÇÂ¼
+		// å‰”é™¤ä¸åˆæ ¼çš„è®°å½•
 		VctTimeRecord::iterator vctItr = itr->second.begin();
 		while (vctItr != itr->second.end())
 		{
@@ -133,7 +133,7 @@ int main()
 				}
 			}
 		}
-		// ¼ÆËãÕËµ¥
+		// è®¡ç®—è´¦å•
 		if (!itr->second.empty())
 		{
 			cout << itr->first << " ";

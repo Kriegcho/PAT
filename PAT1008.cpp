@@ -1,4 +1,4 @@
-#include "iostream"
+﻿#include "iostream"
 using namespace std;
 
 const int nUp = 6, nDown = 4, nStop = 5;
