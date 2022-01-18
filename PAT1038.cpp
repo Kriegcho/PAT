@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-// 思路：将所有输入视为字符串，类字典序排序即可
+// 思路：将所有输入视为字符串，类字典序(不是完全字典序，要注意前后的顺序)排序即可
 string rem0(string s)
 {
 	int cnt = 0;
@@ -12,7 +12,7 @@ string rem0(string s)
 	return s.substr(cnt, s.length());
 }
 
-bool cmp(string s1, string s2)
+bool cmp(string s1, string s2) // bool cmp(const string& a, const string& b) { return a + b < b + a; } 妙啊
 {
 	if (s1.empty()) return false;
 	else if (s2.empty()) return true;
