@@ -14,8 +14,6 @@ string rem0(string s)
 
 bool cmp(string s1, string s2) // bool cmp(const string& a, const string& b) { return a + b < b + a; } 妙啊
 {
-	if (s1.empty()) return false;
-	else if (s2.empty()) return true;
 	if (s1 == s2) return s1 < s2;
 	else
 	{
