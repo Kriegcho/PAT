@@ -1,22 +1,20 @@
 ﻿#include <iostream>
 #include <vector>
 #include <queue>
+#include <set>
 using namespace std;
-// 本题应使用广搜。一开始用深搜做，两个测试点过不了，原因：
-// 如果深搜已找到一个点且符合要求，将其访问标志置为true，若其在其他结点的深搜链中，则其子结点就不能被访问到了。
+// 本题应使用广搜。带层数的遍历使用广搜方便很多。
+// 深搜改进：不设置访问标志，使用set保存符合要求的结点。然而最后一个测试点超时了。
 int N, L;
 vector<vector<int>> adj;
-//vector<bool> f;
-//void DFS(int pos, int d, int& cnt)
+// DFS
+//set<int> ans;
+//void DFS(int pos, int d)
 //{
 //	if (d <= L)
 //	{
-//		f[pos] = true;
-//		if (d > 0) cnt++;
-//		for (int i = 0; i < adj[pos].size(); i++)
-//		{
-//			if (!f[adj[pos][i]]) DFS(adj[pos][i], d + 1, cnt);
-//		}
+//		ans.insert(pos);
+//		for (int i = 0; i < adj[pos].size(); i++) DFS(adj[pos][i], d + 1);
 //	}
 //}
 
@@ -41,10 +39,11 @@ int main()
 	{
 		int t;
 		cin >> t;
-		//f.assign(N + 1, false);
-		//int ans = 0;
-		//DFS(t, 0, ans);
-		//cout << ans << endl;
+		// DFS
+		//ans.clear();
+		//DFS(t, 0);
+		//cout << ans.size() - 1 << endl;
+		// BFS
 		vector<bool> f(N + 1, false);
 		vector<int> ans;
 		queue<int> q;
