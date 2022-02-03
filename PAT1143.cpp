@@ -17,7 +17,7 @@ node* gettree(node* p, int l, int h)
 	m[pre[l]]->par = p;
 	if (l == h) return m[pre[l]];
 	int ind = l;
-	for (int i = l + 1; i < h; i++)
+	for (int i = l + 1; i <= h; i++)
 	{
 		if (pre[i] > pre[l])
 		{
