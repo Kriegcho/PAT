@@ -46,6 +46,129 @@ void DFS(int pos, int len, int time)
 	temp.pop_back();
 }
 
+vector<int> disl, templ, lt, dist, tempt, tt;
+vector<vector<int>> pathl, patht;
+vector<bool> vf;
+void DIJL(int s)
+{
+	disl.assign(N, 0);
+	templ.assign(N, 0);
+	lt.assign(N, 0);
+	pathl.assign(N, vector<int>(1, s));
+	int mind = INT32_MAX, ind = 0;
+	for (int i = 0; i < adj[s].size(); i++)
+	{
+		if (adj[s][i]->len < mind)
+		{
+			mind = adj[s][i]->len;
+			ind = adj[s][i]->des;
+		}
+		templ[adj[s][i]->des] = adj[s][i]->len;
+		lt[adj[s][i]->des] = adj[s][i]->time;
+	}
+	for (int i = 0; i < N; i++)
+	{
+		if (disl[ind]) break;
+		else
+		{
+			disl[ind] = mind;
+			pathl[ind].push_back(ind);
+			if (ind == d) break;
+		}
+		mind = INT32_MAX;
+		for (int j = 0; j < adj[ind].size(); j++)
+			if (!disl[adj[ind][j]->des] && adj[ind][j]->des != s)
+			{
+				if (!templ[adj[ind][j]->des] || disl[ind] + adj[ind][j]->len < templ[adj[ind][j]->des])
+				{
+					templ[adj[ind][j]->des] = disl[ind] + adj[ind][j]->len;
+					lt[adj[ind][j]->des] = lt[ind] + adj[ind][j]->time;
+					pathl[adj[ind][j]->des] = pathl[ind];
+				}
+				else if (disl[ind] + adj[ind][j]->len == templ[adj[ind][j]->des])
+				{
+					if (lt[ind] + adj[ind][j]->time < lt[adj[ind][j]->des])
+					{
+						lt[adj[ind][j]->des] = lt[ind] + adj[ind][j]->time;
+						pathl[adj[ind][j]->des] = pathl[ind];
+					}
+				}
+			}
+		for (int j = 0; j < N; j++)
+			if (!disl[j])
+			{
+				if (templ[j] && templ[j] < mind)
+				{
+					mind = templ[j];
+					ind = j;
+				}
+				else if (templ[j] == mind && lt[j] < lt[ind]) ind = j;
+			}
+	}
+	ansl = pathl[d];
+	minl = disl[d];
+}
+
+void DIJT(int s)
+{
+	dist.assign(N, 0);
+	tempt.assign(N, 0);
+	tt.assign(N, 0);
+	patht.assign(N, vector<int>(1, s));
+	int mind = INT32_MAX, ind = 0;
+	for (int i = 0; i < adj[s].size(); i++)
+	{
+		if (adj[s][i]->time < mind)
+		{
+			mind = adj[s][i]->time;
+			ind = adj[s][i]->des;
+		}
+		tempt[adj[s][i]->des] = adj[s][i]->time;
+		tt[adj[s][i]->des] = 1;
+	}
+	for (int i = 0; i < N; i++)
+	{
+		if (dist[ind]) break;
+		else
+		{
+			dist[ind] = mind;
+			patht[ind].push_back(ind);
+			if (ind == d) break;
+		}
+		mind = INT32_MAX;
+		for (int j = 0; j < adj[ind].size(); j++)
+			if (!dist[adj[ind][j]->des] && adj[ind][j]->des != s)
+			{
+				if (!tempt[adj[ind][j]->des] || dist[ind] + adj[ind][j]->time < tempt[adj[ind][j]->des])
+				{
+					tempt[adj[ind][j]->des] = dist[ind] + adj[ind][j]->time;
+					tt[adj[ind][j]->des] = tt[ind] + 1;
+					patht[adj[ind][j]->des] = patht[ind];
+				}
+				else if (dist[ind] + adj[ind][j]->time == tempt[adj[ind][j]->des])
+				{
+					if (tt[ind] + 1 < tt[adj[ind][j]->des])
+					{
+						tt[adj[ind][j]->des] = tt[ind] + 1;
+						patht[adj[ind][j]->des] = patht[ind];
+					}
+				}
+			}
+		for (int j = 0; j < N; j++)
+			if (!dist[j])
+			{
+				if (tempt[j] && tempt[j] < mind)
+				{
+					mind = tempt[j];
+					ind = j;
+				}
+				else if (tempt[j] == mind && tt[j] < tt[ind]) ind = j;
+			}
+	}
+	anst = patht[d];
+	mint = dist[d];
+}
+
 int main()
 {
 	cin >> N >> M;
@@ -64,7 +187,9 @@ int main()
 		}
 	}
 	cin >> s >> d;
-	DFS(s, 0, 0);
+	DIJL(s);
+	DIJT(s);
+	//DFS(s, 0, 0);
 	if (ansl == anst)
 	{
 		cout << "Distance = " << minl << "; Time = " << mint << ": ";
