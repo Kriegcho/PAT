@@ -1,81 +1,47 @@
-﻿#include <cstdio>
-#include <iostream>
-#include <climits>
-#include <cstring>
+﻿#include <iostream>
+#include <vector>
 using namespace std;
 
-const int maxN = 510;
-int nDistanceArr[maxN][maxN];
-int city[maxN];
-bool bVisitArr[maxN];
-int nCity, nRoad, nBegin, nEnd;
-long long nMinLength = LLONG_MAX;
-int nPathCount, nAnsTeams = 0;
-
-void DFS(int nLength, int nTeams, int nCurCity)
+int N, M, C1, C2;
+int ansc = 0, maxr = 0, minl = INT32_MAX;
+void DFS(int pos, int len, int r, const vector<int>& rc, const vector<vector<int>>& adj, vector<bool>& v)
 {
-	if (nCurCity == nEnd)
+	v[pos] = true;
+	if (pos == C2)
 	{
-		if (nLength > nMinLength)
+		if (len < minl)
 		{
-			return;
+			minl = len;
+			ansc = 1;
+			maxr = r;
 		}
-		else if (nLength < nMinLength)
+		else if (len == minl)
 		{
-			nPathCount = 1;
-			nMinLength = nLength;
-			nAnsTeams = nTeams;
-		}
-		else
-		{
-			nPathCount++;
-			if (nAnsTeams < nTeams)
-			{
-				nAnsTeams = nTeams;
-			}
-		}
-		return;
-	}
-
-	if (nLength > nMinLength)
-	{
-		return;
-	}
-	for (int i = 0; i < nCity; i++)
-	{
-		if (nDistanceArr[nCurCity][i] == -1 || bVisitArr[i])
-		{
-			continue;
-		}
-		else
-		{
-			bVisitArr[i] = true;
-			DFS(nLength + nDistanceArr[nCurCity][i], nTeams + city[i], i);
-			bVisitArr[i] = false;
+			ansc++;
+			if (maxr < r) maxr = r;
 		}
 	}
+	else for (int i = 0; i < N; i++)
+	{
+		if (adj[pos][i] && !v[i]) DFS(i, len + adj[pos][i], r + rc[i], rc, adj, v);
+	}
+	v[pos] = false;
 }
 
 int main()
 {
-	cin >> nCity;
-	cin >> nRoad;
-	cin >> nBegin >> nEnd;
-	int road1, road2, nLength;
-	for (int i = 0; i < nCity; i++)
+	cin >> N >> M >> C1 >> C2;
+	vector<int> rc(N);
+	vector<vector<int>> adj(N, vector<int>(N, 0));
+	vector<bool> v(N, false);
+	for (int i = 0; i < N; i++) cin >> rc[i];
+	for (int i = 0; i < M; i++)
 	{
-		cin >> city[i];
+		int a, b, c;
+		cin >> a >> b >> c;
+		adj[a][b] = adj[b][a] = c;
 	}
-	memset(nDistanceArr, -1, sizeof(nDistanceArr));
-	memset(bVisitArr, false, sizeof(bVisitArr));
-	for (int i = 0; i < nRoad; i++)
-	{
-		cin >> road1 >> road2 >> nLength;
-		nDistanceArr[road1][road2] = nDistanceArr[road2][road1] = nLength;
-	}
-	bVisitArr[nBegin] = true;
-	DFS(0, city[nBegin], nBegin);
-	cout << nPathCount << " " << nAnsTeams;
+	DFS(C1, 0, rc[C1], rc, adj, v);
+	cout << ansc << " " << maxr;
 	system("pause");
-	return 0;
 }
